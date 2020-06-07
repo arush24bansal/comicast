@@ -1,0 +1,10 @@
+.container-fluid{
+    background-color:lightsteelblue;
+}
+.logo{
+    height: 150px;
+    margin-left: 5%;
+}
+label{
+    font-size: 110%;
+}

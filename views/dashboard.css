@@ -1,0 +1,31 @@
+html, body{
+    height: 130%;
+    width: 100%;
+}
+.container-fluid{
+    height: 100%;
+    background-color:lightsteelblue;
+}
+.logo{
+    height: 150px;
+    margin-left: 5%;
+}
+.upper{
+    display: flex;
+    justify-content: space-between;
+}
+.one{
+    display: flex;
+    justify-content: space-between;
+}
+.genre{
+    color:rgb(18, 75, 128);
+    margin-left: 3%;
+    
+}
+.video1{
+    height: 150px;
+    width: 250px;
+    background-color:white;
+    border-radius: 10%;
+}

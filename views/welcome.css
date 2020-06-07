@@ -1,0 +1,28 @@
+html, body{
+    height: 100%;
+}
+.container-fluid{
+    height: 100%;
+    background-color:lightsteelblue;
+}
+.logo{
+    height: 150px;
+    margin-left: 5%;
+}
+.p-5{
+    text-align: center;
+    background-color: darkblue;
+    height: 300px;
+    width: 300px;
+    border-radius: 20%;
+}
+h1, a{
+    color: white;
+}
+.lower{
+    display: flex;
+    justify-content: space-around;
+}
+a{
+    font-size: 150%;
+}
