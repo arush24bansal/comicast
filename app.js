@@ -6,6 +6,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const multer = require('multer');
 
 //mongoose connectin
 mongoose.connect('mongodb://localhost/comicast3');
@@ -36,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'secret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
 }));
 
 // Passport middleware

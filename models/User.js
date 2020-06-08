@@ -11,8 +11,7 @@ const UserSchema = new mongoose.Schema({
     country: {type: 'string'},
     about: {type: 'string'},
     website: {type: 'string'},
-    followers:{type: 'number'},
-    following:{type: 'number'}
+    avatar: {type: 'string'},
 });
 
 const User = mongoose.model('User', UserSchema);

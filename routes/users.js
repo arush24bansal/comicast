@@ -10,6 +10,7 @@ const { check, validationResult } = require('express-validator');
 const { body } = require('express-validator/check');
 const flash = require('connect-flash');
 urlencodedParser = bodyParser.urlencoded({ extended: false });
+const upload = require('../config/multer')
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => { 
@@ -20,15 +21,9 @@ router.get('/login', forwardAuthenticated, (req, res) => {
 router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
 
 //Register Information
-router.post('/register', forwardAuthenticated, urlencodedParser, [
-    check('name','Name is required').notEmpty(), 
-    check('username','Username is required').notEmpty(), 
-    check('email','Email is required').notEmpty(), 
+router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     check('email','Email is not valid').isEmail(),
-    check('password','Please enter a password').notEmpty(),
-    check('dateOfBirth','Please mention your Date of Birth').notEmpty(), 
-    check('gender', 'Please mention your gender').notEmpty(),
-    check('country', 'Please mention your country of residence').notEmpty(), 
+    check('password', 'Password should be minimum 8 characters').isLength({ min: 8 }),
     body('password2').custom((value, { req }) => {
         if (value !== req.body.password) {
             throw new Error('Password confirmation does not match password');
@@ -38,6 +33,7 @@ router.post('/register', forwardAuthenticated, urlencodedParser, [
 ], 
 function(req, res){
     const { name, username, email, password, password2, dateOfBirth, gender, country, about, website} = req.body;
+    const  avatar = req.file.filename;
 
     var errors = validationResult(req);
 
@@ -55,6 +51,7 @@ function(req, res){
             country: country,
             about: about,
             website: website,
+            avatar: avatar,
     })
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -79,10 +76,11 @@ function(req, res){
 // Login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
+        successRedirect: '/home',
         failureRedirect: '/users/login',
         failureFlash: true
-    })(req, res, next);
+    })
+    (req, res, next);
 });
 
 // Logout
@@ -93,7 +91,7 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
-   res.render('./profile-user')
+    res.render('./profile-user')
 });
 
 module.exports = router;

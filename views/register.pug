@@ -7,8 +7,7 @@ html(lang='en')
         link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
         link(link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet")   
         link(href="https://fonts.googleapis.com/css2?family=Lobster&family=Sriracha&display=swap" rel="stylesheet")
-        style
-            include register.css
+        link(rel='stylesheet' href='/css/register.css')
     body
         .container-fluid
             if errors
@@ -16,41 +15,41 @@ html(lang='en')
                     .alert.alert-danger.alert-dismissible(role="alert")
                         div=error.msg
             img.p-0.ml-5(src='/images/logo.png' class="logo")
-            form(action="/users/register", method="post")
+            form(action="/users/register", method="post", enctype="multipart/form-data")
                         .form-group
                             label Name
                             br
-                            input(type="text" name="name")
+                            input(type="text" name="name" placeholder="Enter your Full Name" required)
                             br
                         .form-group
                             label Username
                             br
-                            input(type="text" name="username")
+                            input(type="text" name="username" placeholder="Username" required)
                             br
                         .form-group
                             label Email Address 
                             br
-                            input(type="email" name="email")
+                            input(type="email" name="email" placeholder="Email Address" required)
                             br
                         .form-group
-                            label Password
+                            label Password 
                             br
-                            input(type="password" name="password")
-                            br
+                            input(type="password" name="password" placeholder="Enter your password" required)
+                            p (minimum 8 characters)
                         .form-group
                             label Confirm Password
                             br
-                            input(type="password" name="password2")
+                            input(type="password" name="password2" placeholder="Re-enter your password" required)
                             br
                         .form-group
                             label Date of Birth
                             br
-                            input(type="date" name="dateOfBirth")
+                            input(type="date" name="dateOfBirth" required)
                             br
                         .form-group
                             label Gender
                             br
-                            select.form-control(name="gender")
+                            select.form-control(name="gender" required)
                                 option(disabled selected value) -- select an option --
                                 option(name='Male' value='Male') Male
                                 option(name='Female' value='Female') Female
@@ -58,7 +57,7 @@ html(lang='en')
                         .form-group
                             label Country
                             br
-                            select.form-control(name='country')
+                            select.form-control(name='country' required)
                                 option(disabled selected value) -- select an option --
                                 option(value='Afganistan') Afghanistan
                                 option(value='Albania') Albania
@@ -310,11 +309,16 @@ html(lang='en')
                         .form-group
                             label About
                             br
-                            input(type="text" name="about" rows='5')
+                            input(type="text" name="about" rows='5' placeholder="write something about yourself")
                             br
                         .form-group
                             label website
                             br
-                            input(type="text" name="website")
+                            input(type="text" name="website" placeholder="Enter your website URL")
+                            br
+                        .form-group
+                            label Profile Image
+                            br
+                            input(type="file" name="avatar")
                             br
                         button.btn.btn-dark(type='submit') Submit
