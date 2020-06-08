@@ -20,7 +20,9 @@ label{
 .p-5{
     text-align: center;
     background-color: darkblue;
-    height: 300px;
-    width: 300px;
+    height: 270px;
+    width: 270px;
     border-radius: 20%;
+    font-family: 'Sriracha', cursive;
+
 }

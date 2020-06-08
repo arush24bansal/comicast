@@ -10,7 +10,6 @@ const { check, validationResult } = require('express-validator');
 const { body } = require('express-validator/check');
 const flash = require('connect-flash');
 urlencodedParser = bodyParser.urlencoded({ extended: false });
-const getUser = require('../controllers/get-user');
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => { 
@@ -93,6 +92,8 @@ router.get('/logout', (req, res) => {
     res.redirect('/users/login');
 });
 
-router.get('/profile', getUser);
+router.get('/profile', (req, res) => {
+   res.render('./profile-user')
+});
 
 module.exports = router;
