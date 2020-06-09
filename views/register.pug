@@ -8,6 +8,7 @@ html(lang='en')
         link(link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet")   
         link(href="https://fonts.googleapis.com/css2?family=Lobster&family=Sriracha&display=swap" rel="stylesheet")
         link(rel='stylesheet' href='/css/register.css')
+
     body
         .container-fluid
             if errors
@@ -44,7 +45,7 @@ html(lang='en')
                         .form-group
                             label Date of Birth
                             br
-                            input(type="date" name="dateOfBirth" required)
+                            input#datefield(type="date" name="dateOfBirth" max="2020-06-10" required)
                             br
                         .form-group
                             label Gender
@@ -322,3 +323,6 @@ html(lang='en')
                             input(type="file" name="avatar")
                             br
                         button.btn.btn-dark(type='submit') Submit
+
+
+        script(type="text/javascript" src="/js/datepicker.js")        
