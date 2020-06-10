@@ -1,20 +1,12 @@
-html
-doctype
-html(lang='en')
-    head
-        meta(charset='utf-8')
-        title Comicast - Login
-        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
-        link(link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet")   
-        link(href="https://fonts.googleapis.com/css2?family=Lobster&family=Sriracha&display=swap" rel="stylesheet")
-        link(rel='stylesheet' href='/css/register.css')
+extends layout.pug
 
-    body
+block extra
+    link(rel='stylesheet' href='/css/register.css')
+    title Sign Up - Comicast    
+
+
+block content
         .container-fluid
-            if errors
-                for error in errors
-                    .alert.alert-danger.alert-dismissible(role="alert")
-                        div=error.msg
             img.p-0.ml-5(src='/images/logo.png' class="logo")
             form(action="/users/register", method="post", enctype="multipart/form-data")
                 .left

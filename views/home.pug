@@ -1,42 +1,38 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Home - Comicast
-        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
-        link(link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet")   
-        link(rel='stylesheet' href='/css/home.css')
-    body
-        .container-fluid
-            .upper
-                img(src='/images/logo.png' class="logo")
-                ul.nav.justify-content-end.align-items-center
-                    li.nav-item
-                        form.form-inline(action='/action_page.php')
-                            input.form-control.mr-sm-2(type='text' placeholder='Search')
-                            button.btn.btn-primary(type='submit') Search
-                    a(href="/user" class="btn btn-primary") User
-                    a(href="/users/logout" class="btn btn-secondary") Logout
-            br
-            br                
-            div(class="genre1")
-                h3(class="genre") Anecdotal
-                .row.justify-content-around
-                    .col-3(class="video1")
-                    .col-3(class="video1")
-                    .col-3(class="video1")
-            br
-            div(class="genre2")
-                h3(class="genre") Dark
-                .row.justify-content-around
-                    .col-3(class="video1")
-                    .col-3(class="video1")
-                    .col-3(class="video1")
-            br
-            div(class="genre3")
-                h3(class="genre") Deadpan
-                .row.justify-content-around
-                    .col-3(class="video1")
-                    .col-3(class="video1")
-                    .col-3(class="video1")  
+extends layout.pug
+
+block extra
+    link(rel='stylesheet' href='/css/home.css')
+    title= 'Home -' + user.name + '- Comicast'
+    
+block content    
+    .upper
+        img(src='/images/logo.png' class="logo")
+        ul.nav.justify-content-end.align-items-center
+            li.nav-item
+                form.form-inline(action='/action_page.php')
+                    input.form-control.mr-sm-2(type='text' placeholder='Search')
+                    button.btn.btn-primary(type='submit') Search
+            a(href="/user" class="btn btn-primary") User
+            a(href="/users/logout" class="btn btn-secondary") Logout
+    br
+    br                
+    div(class="genre1")
+        h3(class="genre") Anecdotal
+        .row.justify-content-around
+            .col-3(class="video1")
+            .col-3(class="video1")
+            .col-3(class="video1")
+    br
+    div(class="genre2")
+        h3(class="genre") Dark
+        .row.justify-content-around
+            .col-3(class="video1")
+            .col-3(class="video1")
+            .col-3(class="video1")
+    br
+    div(class="genre3")
+        h3(class="genre") Deadpan
+        .row.justify-content-around
+            .col-3(class="video1")
+            .col-3(class="video1")
+            .col-3(class="video1")  

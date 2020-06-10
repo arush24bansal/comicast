@@ -79,6 +79,7 @@ function(req, res){
             country: country,
             about: about,
             website: website,
+            avatar: avatar,
     })
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -88,11 +89,8 @@ function(req, res){
             newUser
                 .save()
                 .then(user => {
-                req.flash(
-                    'success_msg',
-                    'You are now registered and can log in'
-                );
-                res.redirect('/users/login');
+                    req.flash('success', 'You are now registered and can log in');
+                    res.redirect('/users/login');
             })
             .catch(err => console.log(err));
         });
@@ -113,7 +111,7 @@ router.post('/login', (req, res, next) => {
 // Logout
 router.get('/logout', (req, res) => {
     req.logout();
-    req.flash('success_msg', 'You are logged out');
+    req.flash('success', 'You are logged out');
     res.redirect('/users/login');
 });
 

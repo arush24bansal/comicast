@@ -3,26 +3,34 @@ html, body{
 }
 .container-fluid{
     height: 100%;
-    background-color:lightsteelblue;
 }
 .logo{
     height: 150px;
     margin-left: 5%;
 }
-label{
-    font-size: 110%;
-    color: white;
-}
 .lower{
     display: flex;
     justify-content: space-around;
 }
-.p-5{
-    text-align: center;
+.p-3{
+    height: 300px;
+    width: 300px;
     background-color: darkblue;
-    height: 270px;
-    width: 270px;
     border-radius: 20%;
+    text-align: center;
     font-family: 'Sriracha', cursive;
-
 }
+h2, label, a{
+    color: white;
+}
+label,input, a{
+    font-size: 120%;
+}
+input{
+    width: 100%;
+}
+a:hover{
+    text-decoration: none;
+}
+
+

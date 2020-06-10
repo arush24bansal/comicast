@@ -3,18 +3,17 @@ html, body{
 }
 .container-fluid{
     height: 100%;
-    background-color:lightsteelblue;
 }
 .logo{
     height: 150px;
     margin-left: 5%;
 }
 .p-5{
-    text-align: center;
+    height: 300px;
+    width: 300px;
     background-color: darkblue;
-    height: 270px;
-    width: 270px;
     border-radius: 20%;
+    text-align: center;
 }
 h1, a{
     font-family: 'Sriracha', cursive;
@@ -25,5 +24,8 @@ h1, a{
     justify-content: space-around;
 }
 a{
-    font-size: 150%;
+    font-size: 170%;
+}
+a:hover{
+    text-decoration: none;
 }

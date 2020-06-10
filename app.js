@@ -47,6 +47,11 @@ app.use(passport.session());
 // Connect flash
 app.use(flash());
 
+app.use((req, res, next) => {
+    res.locals.flashMessages = req.flash();
+    next();
+});
+
 // Routes
 app.use('/', require('./routes/index.js'));
 app.use('/users', require('./routes/users.js'));
