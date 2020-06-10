@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 // Load User model
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
-const bodyParser = require('body-parser');
 const { check, validationResult } = require('express-validator');
 const { body } = require('express-validator/check');
-const flash = require('connect-flash');
 urlencodedParser = bodyParser.urlencoded({ extended: false });
 const upload = require('../config/multer')
 
@@ -22,7 +22,6 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('register
 
 //Register Information
 router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
-    check('email','Email is not valid').isEmail(),
     check('password', 'Password should be minimum 8 characters').isLength({ min: 8 }),
     body('password2').custom((value, { req }) => {
         if (value !== req.body.password) {
@@ -32,8 +31,7 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     }),
 ], 
 function(req, res){
-    const { name, username, email, password, password2, dateOfBirth, gender, country, about, website} = req.body;
-    const  avatar = req.file.filename;
+    const { name, username, email, password, password2, dateOfBirth, gender, country, about, website, avatar} = req.body;
 
     var errors = validationResult(req);
 

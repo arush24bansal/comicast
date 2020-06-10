@@ -12,7 +12,19 @@ label{
 input{
     width: 250px;
 }
-p{
+.password{
     font-size: 90%;
     color: gray;
+}
+.red{
+    color: rgb(220,20,60);
+    font-size: 60%;
+}
+.a{
+    opacity: 0%;
+    font-size: 70%;
+}
+.red:hover + .a{
+    opacity: 100%;
+    transition: opacity 0.5s;
 }
