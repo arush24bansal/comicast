@@ -10,7 +10,7 @@ const { forwardAuthenticated } = require('../config/auth');
 const { check, validationResult } = require('express-validator');
 const { body } = require('express-validator/check');
 urlencodedParser = bodyParser.urlencoded({ extended: false });
-const upload = require('../config/multer')
+const upload = require('../config/multer');
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => { 
@@ -23,6 +23,32 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('register
 //Register Information
 router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     check('password', 'Password should be minimum 8 characters').isLength({ min: 8 }),
+    check('email').custom((value, {req}) => {
+        return new Promise((resolve, reject) => {
+            User.findOne({email:req.body.email}, function(err, user){
+                if(err) {
+                    reject(new Error('Server Error'))
+                }
+                if(Boolean(user)) {
+                    reject(new Error('E-mail already in use'))
+                }
+                resolve(true)
+            });
+        });
+    }),
+    check('username').custom((value, {req}) => {
+        return new Promise((resolve, reject) => {
+            User.findOne({username :req.body.username}, function(err, user){
+                if(err) {
+                    reject(new Error('Server Error'))
+                }
+                if(Boolean(user)) {
+                    reject(new Error('Username already in use'))
+                }
+                resolve(true)
+            });
+        });
+    }),
     body('password2').custom((value, { req }) => {
         if (value !== req.body.password) {
             throw new Error('Password confirmation does not match password');
@@ -31,7 +57,11 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     }),
 ], 
 function(req, res){
-    const { name, username, email, password, password2, dateOfBirth, gender, country, about, website, avatar} = req.body;
+    const { name, username, email, password, password2, dateOfBirth, gender, country, about, website} = req.body;
+    let avatar;
+    if(req.file){
+        avatar = req.file.filename;
+    } 
 
     var errors = validationResult(req);
 
@@ -49,7 +79,6 @@ function(req, res){
             country: country,
             about: about,
             website: website,
-            avatar: avatar,
     })
 
     bcrypt.genSalt(10, (err, salt) => {

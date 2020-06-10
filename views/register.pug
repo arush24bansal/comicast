@@ -17,6 +17,7 @@ html(lang='en')
                         div=error.msg
             img.p-0.ml-5(src='/images/logo.png' class="logo")
             form(action="/users/register", method="post", enctype="multipart/form-data")
+                .left
                         .form-group
                             label
                                 span Name
@@ -57,6 +58,7 @@ html(lang='en')
                             br
                             input(type="password" name="password2" placeholder="Re-enter your password" required)
                             br
+                .right
                         .form-group
                             label
                                 span Date of Birth

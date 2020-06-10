@@ -28,3 +28,7 @@ input{
     opacity: 100%;
     transition: opacity 0.5s;
 }
+form{
+    display: flex;
+    flex-direction: row;
+}
