@@ -3,4 +3,5 @@ html, body{
 }
 .container-fluid{
     background-color:lightsteelblue;
+    width: 100%;
 }

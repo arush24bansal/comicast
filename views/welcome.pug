@@ -5,12 +5,20 @@ block extra
     title Comicast - Welcome
 
 block content
-    img.p-0.ml-5(src='/images/logo.png' class="logo")
-    br
+    .upper
+        img.logo(src='/images/logo.png')
+        br
+        .p-4
+            br
+            h1 Welcome
+            br
+            .central
+                a.btn.btn-info.up(href='users/login') Already a User
+                .btn.btn-info.down Login
+            br
+            br
+            .central
+                a.btn.btn-info.up(href='/users/register') New to Comicast
+                .btn.btn-info.down Sign Up
     .lower
-        .p-5
-            h1 WELCOME
-            br
-            a(href='/users/login') Login
-            br
-            a(href='/users/register') Signup
+

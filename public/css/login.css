@@ -1,36 +1,47 @@
 html, body{
     height: 100%;
-}
-.container-fluid{
+} .container-fluid{
     height: 100%;
-}
-.logo{
-    height: 150px;
-    margin-left: 5%;
-}
-.lower{
+} .upper{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+} .logo{
+    height: 300px;
+} .p-4{
+    text-align: center;
+    width: 300px;
+    height: 280px;
+    background-color: #2f435e;
+    border-bottom-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+} h1, a{
+    color: white;
+} .btn-info{
+    width: 80%;
+    font-size: 140%;
+    border: none;
+    text-align: left;
+} ::placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} :-ms-input-placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} ::-ms-input-placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} a {
+    font-size: 120%;
+} a:hover{
+    text-decoration: none;
+} .btn-success{
+    font-size: 120%;
+} .lower{
     display: flex;
     justify-content: space-around;
 }
-.p-3{
-    height: 300px;
-    width: 300px;
-    background-color: darkblue;
-    border-radius: 20%;
-    text-align: center;
-    font-family: 'Sriracha', cursive;
-}
-h2, label, a{
-    color: white;
-}
-label,input, a{
-    font-size: 120%;
-}
-input{
-    width: 100%;
-}
-a:hover{
-    text-decoration: none;
-}
-
 

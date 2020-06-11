@@ -1,31 +1,35 @@
-.logo{
+html, body{
+    height: 100%;
+} .container-fluid{
+    height: 100%;
+} .logo{
     height: 150px;
     margin-left: 5%;
-}
-label{
-    font-size: 110%;
-    font-family: 'Sriracha', cursive;
-}
-input{
-    width: 250px;
-}
-.password{
+} form{
+    display: flex;
+    justify-content: space-around;
+} .p-3{
+    background-color: #2f435e;
+    border-radius: 10px;
+    text-align: center;
+} h2, h5{
+    color: white;
+}::placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} :-ms-input-placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} ::-ms-input-placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} .btn-info{
+    width: 240px;
+    text-align: left;
+}.password{
     font-size: 90%;
     color: gray;
-}
-.red{
-    color: rgb(220,20,60);
-    font-size: 60%;
-}
-.a{
-    opacity: 0%;
-    font-size: 70%;
-}
-.red:hover + .a{
-    opacity: 100%;
-    transition: opacity 0.5s;
-}
-form{
-    display: flex;
-    flex-direction: row;
 }

@@ -12,7 +12,7 @@ module.exports = function(passport) {
                 username: username
                 }).then(user => {
                     if (!user) {
-                    return done(null, false, req.flash('error', 'Username or Password is invalid'));
+                    return done(null, false, req.flash('error', 'Username not registered'));
                     }
 
             // Match password
@@ -21,7 +21,7 @@ module.exports = function(passport) {
                     if (isMatch) {
                     return done(null, user);
                     } else {
-                    return done(null, false, req.flash('error', 'Username or Password is invalid'));
+                    return done(null, false, req.flash('error', 'Password is invalid'));
                 }
             });
         });
