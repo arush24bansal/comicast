@@ -7,8 +7,7 @@ block extra
 block content   
     .upper
         img.logo(src='/images/logo.png')
-        br
-        .p-4
+        .p-3
             h1 Login
             form.mt-3(action="/users/login", method="post")
                 .form-group
@@ -17,3 +16,17 @@ block content
                     input.btn.btn-info.p-1(type="password" name="password" placeholder="Password" required)
                 button.btn.btn-success(type='submit') Login 
                 a(href='/users/register') &nbsp; &nbsp; Sign Up? 
+    .lower
+        .limit
+            .carousel.slide#portfolioslides(data-ride="carousel" data-interval="2500")
+                ol.carousel-indicators
+                    li.active(data-target="#portfolioslides" data-slide-to="0")
+                    li(data-target="#portfolioslides" data-slide-to="1")
+                    li(data-target="#portfolioslides" data-slide-to="2")
+                .carousel-inner
+                    .carousel-item.active
+                        img.d-block(src="/images/1slide.png")
+                    .carousel-item
+                        img.d-block(src="/images/2slide.png")
+                    .carousel-item
+                        img.d-block(src="/images/3slide.png")

@@ -5,5 +5,8 @@ block extra
     title= user.name + '- Comicast'
     
 block content
-        .details
-            img.image(src= "/avatar_uploads/" + user.avatar)
+        .upper
+            if(user.avatar)
+                img.image(src= "/avatar_uploads/" + user.avatar)
+            else
+                img.image(src="/images/avatar.png")
