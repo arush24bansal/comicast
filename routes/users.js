@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const bodyParser = require('body-parser');
-const flash = require('connect-flash');
-// Load User model
-const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
-const { check, validationResult } = require('express-validator');
-const { body } = require('express-validator/check');
 urlencodedParser = bodyParser.urlencoded({ extended: false });
 const upload = require('../config/multer');
+const { check, validationResult } = require('express-validator');
+const { body } = require('express-validator/check');
+const bcrypt = require('bcryptjs');
+const User = require('../models/User');
+const smtpTransport = require("../config/nodemailer");
+const emailVerify = require("../config/emailVerify");
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => { 
@@ -55,8 +55,7 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
         }
         return true;
     }),
-], 
-function(req, res){
+], (req, res) => {
     const { name, username, email, password, password2, dateOfBirth, gender, country, about, website} = req.body;
     let avatar;
     if(req.file){
@@ -89,14 +88,34 @@ function(req, res){
             newUser
                 .save()
                 .then(user => {
-                    req.flash('success', 'You are now registered and can log in');
+                    req.flash('success', 'Registration Successful, Confirm your Email and Login');
                     res.redirect('/users/login');
+
+                    const host = req.get('host');
+                    const link = "http://" + req.get('host') + "/users/verify/" + user.id ;
+                    const mailOptions = {
+                        from: '"Comicast" <comicast.standup@gmail.com>',
+                        to : req.body.email,
+                        subject : "Please confirm your Email account",
+                        html : "<center><h1> Hello, Welcome to Comicast!</h1><br><br> You have been Successfully Reistered with Comicast. To confirm your email click<a href="+link+">here</a><center> <br> In case it wasn't you who registered, ignore this mail."
+                    }
+                    console.log(mailOptions);
+                    smtpTransport.sendMail(mailOptions, function(error, response){
+                        if(error){
+                            console.log(error);
+                            res.send(error);
+                        }else{
+                            console.log("Message sent");
+                        }
+                    });
             })
             .catch(err => console.log(err));
         });
     });
     };
-});
+} );
+
+router.get('/verify/:id', emailVerify);
 
 // Login
 router.post('/login', (req, res, next) => {
@@ -113,10 +132,6 @@ router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success', 'You are logged out');
     res.redirect('/users/login');
-});
-
-router.get('/profile', (req, res) => {
-    res.render('./profile-user')
 });
 
 module.exports = router;

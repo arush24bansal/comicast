@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
     about: {type: 'string'},
     website: {type: 'string'},
     avatar: {type: 'string'},
+    confirmed: {type: Boolean, default: false},
 });
 
 const User = mongoose.model('User', UserSchema);

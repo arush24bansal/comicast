@@ -13,6 +13,8 @@ module.exports = function(passport) {
                 }).then(user => {
                     if (!user) {
                     return done(null, false, req.flash('error', 'Username not registered'));
+                    } else if(!user.confirmed){
+                    return done(null, false, req.flash('error', 'Email not verified'));  
                     }
 
             // Match password
