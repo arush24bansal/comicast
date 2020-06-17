@@ -6,21 +6,18 @@ const { forwardAuthenticated } = require('../config/auth');
 urlencodedParser = bodyParser.urlencoded({ extended: false });
 const upload = require('../config/multer');
 const { check, validationResult } = require('express-validator');
-const { body } = require('express-validator/check');
+const { body } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const smtpTransport = require("../config/nodemailer");
 const emailVerify = require("../config/emailVerify");
+const { find } = require('../models/User');
 
-// Login Page
-router.get('/login', forwardAuthenticated, (req, res) => { 
-    res.render('login', { error: req.flash('error')});
+// Register Page -----------------------------------------------------------------------------------------------------------------------
+router.get('/register', forwardAuthenticated, (req, res) => {
+    res.render('register')
 });
 
-// Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
-
-//Register Information
 router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     check('password', 'Password should be minimum 8 characters').isLength({ min: 8 }),
     check('email').custom((value, {req}) => {
@@ -91,15 +88,13 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
                     req.flash('success', 'Registration Successful, Confirm your Email and Login');
                     res.redirect('/users/login');
 
-                    const host = req.get('host');
                     const link = "http://" + req.get('host') + "/users/verify/" + user.id ;
                     const mailOptions = {
                         from: '"Comicast" <comicast.standup@gmail.com>',
                         to : req.body.email,
                         subject : "Please confirm your Email account",
-                        html : "<center><h1> Hello, Welcome to Comicast!</h1><br><br> You have been Successfully Reistered with Comicast. To confirm your email click<a href="+link+">here</a><center> <br> In case it wasn't you who registered, ignore this mail."
+                        html : "<center><h1> Hello, Welcome to Comicast!</h1><br><br> You have been Successfully Reistered with Comicast. To confirm your email click  <a href="+link+">here</a><center> <br> In case it wasn't you who registered, ignore this mail."
                     }
-                    console.log(mailOptions);
                     smtpTransport.sendMail(mailOptions, function(error, response){
                         if(error){
                             console.log(error);
@@ -115,9 +110,11 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     };
 } );
 
-router.get('/verify/:id', emailVerify);
+// Login Page --------------------------------------------------------------------------------------------------------------------------
+router.get('/login', forwardAuthenticated, (req, res) => { 
+    res.render('login');
+});
 
-// Login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/home',
@@ -127,7 +124,109 @@ router.post('/login', (req, res, next) => {
     (req, res, next);
 });
 
-// Logout
+// Email Verification Page -------------------------------------------------------------------------------------------------------------
+router.get('/verify/:id', emailVerify);
+
+// Forgot Password Page ----------------------------------------------------------------------------------------------------------------
+router.get('/password', (req, res) => { 
+    res.render('password')
+});
+
+router.post('/password', (req, res) => {
+    const {email_confirm} = req.body;
+    User.findOne({email: email_confirm}, function (err, user){ 
+        if (err) throw err;
+        if(user){
+            const link = "http://" + req.get('host') + "/users/password/verify/" + user.id;
+            const mailOptions = {
+                from: '"Comicast" <comicast.standup@gmail.com>',
+                to : req.body.email_confirm,
+                subject : "Reset Password",
+                html : "<center><h1> Reset your Password here</h1><br><br> Click <a href="+link+">here</a> to set new password </center>"
+            }
+            smtpTransport.sendMail(mailOptions, function(error, response){
+                if(error){
+                    console.log(error);
+                    res.send(error);
+                }else{
+                    console.log("Message sent");
+                }
+            });
+            req.flash('success', 'Reset Password Link Sent to your Email')
+            res.redirect('/users/login');
+        } else {
+            req.flash('error', 'No User Found')
+            res.redirect("/users/password")
+        }
+    });
+});
+
+// Forgot Password Verification Page ---------------------------------------------------------------------------------------------------
+let mongooseId;
+router.get('/password/verify/:id', (req, res) => {
+    mongooseId = req.params.id;
+    User.findOne({_id: mongooseId}, function (err, user){ 
+        if (err) throw err;
+        if(user){
+            res.render('passwordChange')
+        }else{
+            req.flash("error", "Request is from an Unknown Source");
+            res.redirect("/users/login");            
+        }
+    });
+});
+
+router.post('/password/verify/final', forwardAuthenticated, urlencodedParser,[
+    check('password', 'Password should be minimum 8 characters').isLength({ min: 8 }),
+    body('password2').custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error('Password confirmation does not match password');
+        }
+        return true;
+    }),
+], (req, res) => {
+    const {password} = req.body;
+
+    var errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        res.render('passwordChange', {errors:errors.array()});
+        console.log(errors);
+    } else {
+        User.findOne({_id: mongooseId}, (err, user) => {
+            if (err) throw err;
+            if(user){
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) {
+                        throw err
+                    } else {
+                        bcrypt.hash(req.body.password, salt, function(err, hash) {
+                            if (err) {
+                                throw err
+                            } else {
+                                req.body.password = hash;
+                                User.findByIdAndUpdate({_id: mongooseId}, {password: req.body.password}, (err, result) => {
+                                    if (err) {
+                                        res.send(err);
+                                    } else {
+                                        req.flash("success", "Password has been Changed");
+                                        res.redirect("/users/login");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });               
+            } else {  
+                req.flash("error", "Request couldn't be fulfilled");
+                res.redirect('/users/login')              
+            }
+        }); 
+    }
+});
+
+
+// Logout-------------------------------------------------------------------------------------------------------------------------------
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success', 'You are logged out');

@@ -7,10 +7,13 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const multer = require('multer');
+const helmet = require('helmet');
 
 //mongoose connectin
-mongoose.connect('mongodb://localhost/comicast3');
+mongoose.connect('mongodb://localhost/comicast3', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 //App Initialization
 const app = express();
@@ -18,6 +21,9 @@ const port = 3013;
 
 // Passport Config
 require('./config/passport')(passport);
+
+// helmet Start, contains 11 packages relating to various security features
+app.use(helmet());
 
 // View Engine
 app.set('view engine', 'pug');
