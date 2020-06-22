@@ -11,7 +11,6 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const smtpTransport = require("../config/nodemailer");
 const emailVerify = require("../config/emailVerify");
-const { find } = require('../models/User');
 
 // Register Page -----------------------------------------------------------------------------------------------------------------------
 router.get('/register', forwardAuthenticated, (req, res) => {
@@ -51,9 +50,24 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
             throw new Error('Password confirmation does not match password');
         }
         return true;
-    }),
+    }), 
+    // body('website').custom((value, { req }) => {
+    //     if (req.body.website) {
+    //         function isURL(str){
+    //             var pattern = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
+    //             return pattern.test(str);
+    //         }
+    //         if(isURL(value)){
+    //             return true
+    //         } else{
+    //             throw new Error('Please Enter a valid URL');
+    //         } 
+    //     }
+    //     return true;
+    // }),
 ], (req, res) => {
     const { name, username, email, password, password2, dateOfBirth, gender, country, about, website} = req.body;
+
     let avatar;
     if(req.file){
         avatar = req.file.filename;
@@ -88,6 +102,7 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
                     req.flash('success', 'Registration Successful, Confirm your Email and Login');
                     res.redirect('/users/login');
 
+                    const host = req.get('host');
                     const link = "http://" + req.get('host') + "/users/verify/" + user.id ;
                     const mailOptions = {
                         from: '"Comicast" <comicast.standup@gmail.com>',

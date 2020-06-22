@@ -6,4 +6,12 @@ html, body{
 }
 .container-fluid{
     width: 100%;
+}.lower{
+    display: flex;
+    justify-content: center;
+} .limit{
+    width: 490px;
+} .d-block{
+    height: 300px;
+    object-fit: cover;
 }

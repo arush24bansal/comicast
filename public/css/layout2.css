@@ -1,0 +1,30 @@
+html, body{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color:lightsteelblue;
+    display: block;
+    overflow: auto;
+}
+.container-fluid{
+    width: 100%;
+} .btn-info {
+    height: 30px;
+} ::placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} :-ms-input-placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} ::-ms-input-placeholder{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+} .user_anchor{
+    height: 30px;
+    border-radius: 30%;
+} .user_anchor:hover{
+    transform: scale(1.2);
+}
