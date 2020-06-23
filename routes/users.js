@@ -19,6 +19,7 @@ router.get('/register', forwardAuthenticated, (req, res) => {
 
 router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     check('password', 'Password should be minimum 8 characters').isLength({ min: 8 }),
+    check('username', 'Username should be minimum 5 characters').isLength({ min: 5 }),
     check('email').custom((value, {req}) => {
         return new Promise((resolve, reject) => {
             User.findOne({email:req.body.email}, function(err, user){
@@ -47,49 +48,39 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     }),
     body('password2').custom((value, { req }) => {
         if (value !== req.body.password) {
-            throw new Error('Password confirmation does not match password');
+            throw new Error("Password Confirmation doesn't match");
         }
         return true;
     }), 
-    // body('website').custom((value, { req }) => {
-    //     if (req.body.website) {
-    //         function isURL(str){
-    //             var pattern = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
-    //             return pattern.test(str);
-    //         }
-    //         if(isURL(value)){
-    //             return true
-    //         } else{
-    //             throw new Error('Please Enter a valid URL');
-    //         } 
-    //     }
-    //     return true;
-    // }),
 ], (req, res) => {
     const { name, username, email, password, password2, dateOfBirth, gender, country, about, website} = req.body;
 
     let avatar;
     if(req.file){
         avatar = req.file.filename;
-    } 
-
+    }
+    
     var errors = validationResult(req);
+
 
     if (!errors.isEmpty()) {
         res.render('register', {errors:errors.array()});
         console.log(errors);
-    } else{
-        var newUser = new User({
-            name: name,
-            username: username,
-            email: email,
-            password: password,
-            dateOfBirth: dateOfBirth,
-            gender: gender,
-            country: country,
-            about: about,
-            website: website,
-            avatar: avatar,
+    } else if(req.fileValidationError) {
+        req.flash('error', 'please upload a valid file');
+        res.redirect('register');
+    }else{
+    var newUser = new User({
+        name: name,
+        username: username,
+        email: email,
+        password: password,
+        dateOfBirth: dateOfBirth,
+        gender: gender,
+        country: country,
+        about: about,
+        website: website,
+        avatar: avatar,
     })
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -118,12 +109,12 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
                             console.log("Message sent");
                         }
                     });
-            })
-            .catch(err => console.log(err));
+                })
+                .catch(err => console.log(err));
+            });
         });
-    });
     };
-} );
+});
 
 // Login Page --------------------------------------------------------------------------------------------------------------------------
 router.get('/login', forwardAuthenticated, (req, res) => { 
@@ -173,7 +164,7 @@ router.post('/password', (req, res) => {
             req.flash('error', 'No User Found')
             res.redirect("/users/password")
         }
-    });
+    });   
 });
 
 // Forgot Password Verification Page ---------------------------------------------------------------------------------------------------

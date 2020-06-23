@@ -13,10 +13,11 @@ var storage = multer.diskStorage({
 
 const fileFilter = function (req, file, cb) {
     const authorizedMimetypes = ['image/jpeg', 'image/jpg', 'image/png']
-    if (authorizedMimetypes.includes(file.mimetype)) {
-        return cb(null, true);
+    if (!authorizedMimetypes.includes(file.mimetype)) {
+        req.fileValidationError = 'please upload a valid file';
+        return cb(null, false, new Error('please upload a valid file'));
     }else{
-        return cb(null, false, console.log("multerError"));
+        return cb(null, true);
     }
 }
 
