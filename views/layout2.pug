@@ -19,11 +19,8 @@ html(lang='en')
                     input.btn.btn-outline-info.form-control(type="search" placeholder="Search" aria-label="Search")
                     button.btn.btn-outline-info(type="submit") 
                         i(class="fa fa-search")
-                a.nav-item.nav-link.active.m-0(href="/user")
-                    if(user.avatar)
-                        img.user_anchor(src= "/avatar_uploads/" + user.avatar)
-                    else
-                        img.user_anchor(src="/images/avatar.png")
+                a.nav-item.nav-link.active.m-0(href="/user/" + user.username)
+                    img.user_anchor(src= "/avatar_uploads/" + user.avatar)
                 .nav-item.dropdown
                     a.nav-link.dropdown-toggle(data-toggle="dropdown")
                         .dropdown-menu

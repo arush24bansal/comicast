@@ -3,13 +3,13 @@ extends layout.pug
 block extra 
     link(rel='stylesheet' href='/css/welcome.css')
     title Comicast - Welcome
-
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
 block content
     .upper
         img.logo(src='/images/logo_final.png')
         .p-4.mt-0
             br
-            h1 Welcome
+            h1.velocity Welcome
             br
             .central
                 a.btn.btn-info.up(href='users/login') Already a User
@@ -20,4 +20,4 @@ block content
                 a.btn.btn-info.up(href='/users/register') New to Comicast
                 .btn.btn-info.down Sign Up
 
-
+        

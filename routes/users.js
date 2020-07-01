@@ -58,10 +58,23 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     let avatar;
     if(req.file){
         avatar = req.file.filename;
+    } else{
+        avatar = "noimage.png";
     }
     
     var errors = validationResult(req);
 
+    var form = {
+        nameholder: req.body.name,
+        usernameholder: req.body.username,
+        emailholder: req.body.email,
+        dateOfBirthholder: req.body.dateOfBirth,
+        genderholder: req.body.gender,
+        countryholder: req.body.country,
+        about: req.body.about,
+        website: req.body.website,
+        avatar: req.body.avatar,
+    }
 
     if (!errors.isEmpty()) {
         res.render('register', {errors:errors.array()});
@@ -230,7 +243,6 @@ router.post('/password/verify/final', forwardAuthenticated, urlencodedParser,[
         }); 
     }
 });
-
 
 // Logout-------------------------------------------------------------------------------------------------------------------------------
 router.get('/logout', (req, res) => {

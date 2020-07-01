@@ -47,7 +47,7 @@ html, body{
     font-size: 20px;
     color:#DC143C;
 }
-sup:hover, h2:hover, h1:hover{
+sup:hover, h2:hover, h1:hover, p{
     cursor: default;
 }.inner_group{
     width: 240px;
@@ -57,4 +57,7 @@ sup:hover, h2:hover, h1:hover{
     width: 200px;
 } i{
     margin-top: 7px;
+} #hint, #hintPassword{
+    margin: 0px;
+    color: red;
 }

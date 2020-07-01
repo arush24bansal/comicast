@@ -1,0 +1,15 @@
+extends layout2.pug
+
+block extra
+    link(rel='stylesheet' href='/css/user.css')
+    title= user.name + '- Comicast'
+    
+block content
+        .upper
+            img.image(src= "/avatar_uploads/" + user.avatar)
+            .Details
+                h1= user.username
+                h2= user.name + user.about
+                if(user.website)
+                    h3= user.website
+                

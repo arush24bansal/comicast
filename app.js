@@ -6,7 +6,6 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const multer = require('multer');
 const helmet = require('helmet');
 
 //mongoose connectin

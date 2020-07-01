@@ -44,10 +44,10 @@ html(lang='en')
                             title="Enter your Name")
                             br
                         .form-group
-                            input.btn.btn-info.my-3(type="text" name="username" placeholder="Username" maxlength="22" required
-                            oninvalid="this.setCustomValidity('Enter a Username (min 5 characters)')" oninput="setCustomValidity('')"
-                            title="Enter a Username" pattern=".{5,}")
+                            input.btn.btn-info.my-3(type="text" name="username" id="username" placeholder="Username" maxlength="22" required oninvalid="this.setCustomValidity('Enter a Username (min 5 characters)')" unique oninput="setCustomValidity('')" title="Enter a Username" pattern=".{5,}" 
+                            onkeyup="usernameCase()")
                             br
+                            p#hint
                         .form-group
                             input.btn.btn-info(type="email" name="email" placeholder="Email Address" required
                             oninvalid="this.setCustomValidity('Enter a valid Email Address')" oninput="setCustomValidity('')"
@@ -57,10 +57,11 @@ html(lang='en')
                         h2(title="Required") Password <br> Details 
                             sup(title="Required") *
                         .form-group
-                            input.btn.btn-info.mt-4(type="password" name="password" id="password" placeholder="Enter your password" minlength="8" maxlength="25" onkeyup='check();' required oninvalid="this.setCustomValidity('Please Enter a Password (min 8 characters)')" oninput="setCustomValidity('')" title="Enter a Password")
+                            input.btn.btn-info.mt-4(type="password" name="password" id="password" placeholder="Enter your password" minlength="8" maxlength="25" required oninvalid="this.setCustomValidity('Please Enter a Password)" oninput="setCustomValidity('')" title="Enter a Password" onkeyup="passwordCheck1();" onblur="passwordCheck2();" )
                             p.password (minimum 8 characters)
                         .form-group
-                            input.btn.btn-info(type="password" name="password2" id="confirm_password" placeholder="Confirm your password" maxlength="25" required onkeyup='check();' oninvalid="this.setCustomValidity('Password Confirmation doesn't match')" oninput="setCustomValidity('')" title="Confirm your Password")
+                            input.btn.btn-info(type="password" name="password2" id="confirm_password" placeholder="Confirm your password" maxlength="25" required oninvalid="this.setCustomValidity('Confirm your password')" oninput="setCustomValidity('')" title="Confirm your Password" onkeyup="passwordCheck3();" onblur="passwordCheck4();")
+                            p#hintPassword
                             br
                     .p-3.m-2
                         h2(title="Required") Personal <br> Details 
@@ -346,10 +347,11 @@ html(lang='en')
                             br
                         button.btn.btn-success(type='submit') Submit
 
+                script(type="text/javascript" src="/js/usernameCase.js")
+                script(type="text/javascript" src="/js/datePicker.js")
 
-                script(type="text/javascript" src="/js/datepicker.js")
-                script(type="text/javascript" src="/js/passwordCheck.js")
 
         script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
         script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
-        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous")         
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous")    
+            
