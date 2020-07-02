@@ -23,12 +23,15 @@ router.get('/user/:username', ensureAuthenticated, (req, res) => {
             user : req.user
         });
     } else {
-        User.findOne({username: username1}, function(err, user) {
-            if(err) throw err
-            if(user){
-                res.render('user_others', user);
-            }
-        })
+        User.findOne({username: username1}, function (err, result) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.render("user_others", {
+                    user: req.user,
+                    user2: result
+                })
+        }});
     }
 });
 

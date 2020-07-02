@@ -125,13 +125,37 @@ router.get('/login', forwardAuthenticated, (req, res) => {
     res.render('login');
 });
 
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/home',
-        failureRedirect: '/users/login',
-        failureFlash: true
-    })
-    (req, res, next);
+// router.post('/login', (req, res, next) => {
+//     passport.authenticate('local', {
+//         successRedirect: '/home',
+//         failureRedirect: '/users/login',
+//         failureFlash: true
+//     })
+//     (req, res, next);
+// });
+
+router.post("/login", function (req, res, next) {
+    var authFunction = passport.authenticate("local", function (err, user, info) {
+        if (err) {
+            next(err);
+        } else {
+            req.logIn(user, function (err) {
+                if (err) {
+                    next(err);
+                } else {
+                    if (req.body.remember) {
+                        var hour = 30*24*60*60*1000;
+                        req.session.cookie.expires = new Date(Date.now() + hour);
+                        req.session.cookie.maxAge = hour;
+                    } else {
+                        req.session.cookie.expires = false;
+                    }
+                    res.redirect("/home");
+                }
+            });
+        }
+    });
+    authFunction(req, res, next);
 });
 
 // Email Verification Page -------------------------------------------------------------------------------------------------------------
@@ -147,7 +171,7 @@ router.post('/password', (req, res) => {
     User.findOne({email: email_confirm}, function (err, user){ 
         if (err) throw err;
         if(user){
-            const link = "http://" + req.get('host') + "/users/password/verify/" + user.random;
+            const link = "http://" + req.get('host') + "/users/password/verify/" + user.id + "/" + user.random;
             const mailOptions = {
                 from: '"Comicast" <comicast.standup@gmail.com>',
                 to : req.body.email_confirm,
@@ -173,17 +197,27 @@ router.post('/password', (req, res) => {
 
 // Forgot Password Verification Page ---------------------------------------------------------------------------------------------------
 let randomt;
-router.get('/password/verify/:token', (req, res) => {
+let mongoId
+router.get('/password/verify/:id/:token', (req, res) => {
     randomt = req.params.token;
-    User.findOne({random: randomt}, function (err, user){ 
-        if (err) throw err;
+    mongoId = req.params.id;
+    User.findOne({_id: mongoId}, function(err, user){
+        if(err) throw err;
         if(user){
-            res.render('passwordChange')
-        }else{
-            req.flash("error", "Request is from an Unknown Source");
-            res.redirect("/users/login");            
+            User.findOne({random: randomt}, function (err, user){ 
+                if (err) throw err;
+                if(user){
+                    res.render('passwordChange')
+                }else{
+                    req.flash("error", "Request is from an Unknown Source");
+                    res.redirect("/users/login");            
+                }
+            });
+        } else{
+            req.flash("error", "No User Found");
+            res.redirect("/users/login"); 
         }
-    });
+    })
 });
 
 router.post('/password/verify/final', forwardAuthenticated, urlencodedParser,[

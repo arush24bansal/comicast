@@ -2,14 +2,14 @@ extends layout2.pug
 
 block extra
     link(rel='stylesheet' href='/css/user.css')
-    title= user.name + '- Comicast'
+    title= user2.username + '- Comicast'
     
 block content
         .upper
-            img.image(src= "/avatar_uploads/" + user.avatar)
+            img.image(src= "/avatar_uploads/" + user2.avatar)
             .Details
-                h1= user.username
-                h2= user.name + user.about
-                if(user.website)
-                    h3= user.website
+                h1= user2.username
+                h2= user2.name + user2.about
+                if(user2.website)
+                    h3= user2.website
                 
