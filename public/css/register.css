@@ -57,7 +57,7 @@ sup:hover, h2:hover, h1:hover, p{
     width: 200px;
 } i{
     margin-top: 7px;
-} #hint, #hintPassword{
+} #hint, #hint2, #hintUsername{
     margin: 0px;
     color: red;
 }

@@ -3,7 +3,6 @@ var b = document.getElementById('confirm_password');
 var hint = document.getElementById('hint');
 var hint2 = document.getElementById('hint2');
 var submit = document.getElementById('submit');
-var info = document.getElementById('info');
 
 a.addEventListener("input", function() {
     hint.innerHTML = "" ;
@@ -33,7 +32,6 @@ a.addEventListener("blur", function() {
         submit.style.display = "block" ;
     }
 })
-
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 b.addEventListener("input", function() {

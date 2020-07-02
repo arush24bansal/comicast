@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
     website: {type: 'string'},
     avatar: {type: 'string'},
     confirmed: {type: Boolean, default: false},
+    random: {type: String, unique: true}
 });
 
 const User = mongoose.model('User', UserSchema);

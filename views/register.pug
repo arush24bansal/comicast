@@ -37,51 +37,46 @@ html(lang='en')
             .lower.mt-5
                 form(action="/users/register", method="post", enctype="multipart/form-data")
                     .p-3.m-2
-                        h2.mb-5(title="Required") User Details  
-                            sup(title="Required") *
+                        h2.mb-5.req User Details  
+                            sup.req *
                         .form-group
-                            input.btn.btn-info.mt-4(type="text" name="name" placeholder="Full Name" maxlength="22" required oninvalid="this.setCustomValidity('Enter your Name')" oninput="setCustomValidity('')"
-                            title="Enter your Name")
+                            input.btn.btn-info.mt-4(type="text" name="name" placeholder="Full Name" maxlength="22" required oninvalid="this.setCustomValidity('Enter your Name')")
                             br
                         .form-group
-                            input.btn.btn-info.my-3(type="text" name="username" id="username" placeholder="Username" maxlength="22" required oninvalid="this.setCustomValidity('Enter a Username (min 5 characters)')" unique oninput="setCustomValidity('')" title="Enter a Username" pattern=".{5,}" 
-                            onkeyup="usernameCase()")
+                            input.btn.btn-info.my-3#username(type="text" name="username" placeholder="Username" maxlength="22" required oninvalid="this.setCustomValidity('Enter a Username (min 5 characters)')" pattern=".{5,}")
                             br
-                            p#hint
+                            p#hintUsername
                         .form-group
                             input.btn.btn-info(type="email" name="email" placeholder="Email Address" required
-                            oninvalid="this.setCustomValidity('Enter a valid Email Address')" oninput="setCustomValidity('')"
-                            title="Enter your Email Address")
+                            oninvalid="this.setCustomValidity('Enter a valid Email Address')")
                             br
                     .p-3.m-2
-                        h2(title="Required") Password <br> Details 
-                            sup(title="Required") *
+                        h2.req Password <br> Details 
+                            sup.req *
                         .form-group
-                            input.btn.btn-info.mt-4(type="password" name="password" id="password" placeholder="Enter your password" minlength="8" maxlength="25" required oninvalid="this.setCustomValidity('Please Enter a Password)" oninput="setCustomValidity('')" title="Enter a Password" onkeyup="passwordCheck1();" onblur="passwordCheck2();" )
+                            input.btn.btn-info.mt-4#password(type="password" name="password" placeholder="Enter your password" minlength="8" maxlength="25" required oninvalid="this.setCustomValidity('Please Enter a Password)")
                             p.password (minimum 8 characters)
                         .form-group
-                            input.btn.btn-info(type="password" name="password2" id="confirm_password" placeholder="Confirm your password" maxlength="25" required oninvalid="this.setCustomValidity('Confirm your password')" oninput="setCustomValidity('')" title="Confirm your Password" onkeyup="passwordCheck3();" onblur="passwordCheck4();")
-                            p#hintPassword
+                            input.btn.btn-info#confirm_password(type="password" name="password2" placeholder="Confirm your password" maxlength="25" required oninvalid="this.setCustomValidity('Confirm your password')" disabled)
                             br
+                            p#hint
+                            p#hint2
                     .p-3.m-2
-                        h2(title="Required") Personal <br> Details 
-                            sup(title="Required") *
+                        h2.req Personal <br> Details 
+                            sup.req *
                         .form-group
-                            input.btn.btn-info.mt-4#datefield(type="text" name="dateOfBirth" onfocus="(this.type='date')" max="2020-06-10" placeholder="Date of Birth" required
-                            oninvalid="this.setCustomValidity('Please Enter your Date of Birth')" oninput="setCustomValidity('')"
-                            title="Enter your Date of Birth")
+                            input.btn.btn-info.mt-4#datefield(type="text" name="dateOfBirth" onfocus="(this.type='date')" placeholder="Date of Birth" required oninvalid="this.setCustomValidity('Please Enter your Date of Birth')")
                             br
                         .form-group
                             select.btn.btn-info.form-control.my-3(name="gender" required
-                            oninvalid="this.setCustomValidity('Please Mention your Gender')" oninput="setCustomValidity('')"
-                            title="Mention your Gender")
+                            oninvalid="this.setCustomValidity('Please Mention your Gender')")
                                 option(disabled selected value) Gender
                                 option(name='Male' value='Male') Male
                                 option(name='Female' value='Female') Female
                                 option(name='Others' value='Others') Others
                         .form-group
                             select.btn.btn-info.form-control(name='country' required 
-                            oninvalid="this.setCustomValidity('Please Mention your Country of Residence')" oninput="setCustomValidity('')" title="Mention your Country of Residence")
+                            oninvalid="this.setCustomValidity('Please Mention your Country of Residence')")
                                 option(disabled selected value) Country
                                 option(value='Afganistan') Afghanistan
                                 option(value='Albania') Albania
@@ -333,23 +328,20 @@ html(lang='en')
                     .p-3.m-2
                         h2.mb-5 Bio
                         .form-group
-                            input.btn.btn-info.mt-4(type="text" name="about" rows='5' placeholder="About yourself"
-                            title="Write something About yourself")
+                            input.btn.btn-info.mt-4(type="text" name="about" rows='5' placeholder="About yourself")
                             br
                         .form-group
                             .inner_group
-                                input.btn.btn-info.shorter_input(type="url" name="website" placeholder="Website URL" title="Enter URL"  oninvalid="this.setCustomValidity('Please Enter a Valid URL')" oninput="setCustomValidity('')")
+                                input.btn.btn-info.shorter_input(type="url" name="website" placeholder="Website URL" oninvalid="this.setCustomValidity('Please Enter a Valid URL')")
                                 i(class="fa fa-info-circle" style="font-size:25px; color:white"  title="Copy & Paste your Website URL, simply typing it may not work." onclick ="alert('Copy & Paste your Website URL, simply typing it may not work.');")
                                 br
                         .form-group
                             input.btn.btn-info(type="text" placeholder="Profile Picture" onfocus="(this.type='file')" name="avatar"
-                            title="Upload a Profile Picture" accept='.png, .jpeg, .JPG, .JPEG, .PNG')
+                            accept='.png, .jpeg, .JPG, .JPEG, .PNG')
                             br
                         button.btn.btn-success(type='submit') Submit
 
-                script(type="text/javascript" src="/js/usernameCase.js")
-                script(type="text/javascript" src="/js/datePicker.js")
-
+                script(type="text/javascript" src="/js/register.js")
 
         script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
         script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")

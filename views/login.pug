@@ -11,9 +11,9 @@ block content
             h1 Login
             form.mt-3(action="/users/login", method="post")
                 .form-group.p-0.m-2
-                    input.btn.btn-info.p-1(type="text" name="username" placeholder="Username" id="username" required oninvalid="this.setCustomValidity('Enter your Username')" oninput="setCustomValidity('')" onkeyup="usernameCase();")
+                    input.btn.btn-info.p-1#username(type="text" name="username" placeholder="Username" required oninvalid="this.setCustomValidity('Enter your Username')")
                 .form-group.p-0.m-2 
-                    input.btn.btn-info.p-1(type="password" name="password" placeholder="Password" required oninvalid="this.setCustomValidity('Enter your Password')" oninput="setCustomValidity('')")
+                    input.btn.btn-info.p-1(type="password" name="password" placeholder="Password" required oninvalid="this.setCustomValidity('Enter your Password')")
                 .form-group.p-0.m-0
                     input(type="checkbox" name="remember_me") 
                     label.ml-1 Remember me
@@ -21,4 +21,5 @@ block content
                 button.btn.btn-success.p-1.mr-2(type='submit') Login
                 a(href='/users/register').btn.btn-primary.p-1.ml-2 Sign Up 
                 br
-            script(type="text/javascript" src="/js/usernameCase.js")
+            
+            script(type="text/javascript" src="/js/login.js")

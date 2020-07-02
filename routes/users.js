@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const smtpTransport = require("../config/nodemailer");
 const emailVerify = require("../config/emailVerify");
+const randomstring = require('randomstring');
 
 // Register Page -----------------------------------------------------------------------------------------------------------------------
 router.get('/register', forwardAuthenticated, (req, res) => {
@@ -63,18 +64,7 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     }
     
     var errors = validationResult(req);
-
-    var form = {
-        nameholder: req.body.name,
-        usernameholder: req.body.username,
-        emailholder: req.body.email,
-        dateOfBirthholder: req.body.dateOfBirth,
-        genderholder: req.body.gender,
-        countryholder: req.body.country,
-        about: req.body.about,
-        website: req.body.website,
-        avatar: req.body.avatar,
-    }
+    var random = randomstring.generate();
 
     if (!errors.isEmpty()) {
         res.render('register', {errors:errors.array()});
@@ -94,6 +84,7 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
         about: about,
         website: website,
         avatar: avatar,
+        random: random,
     })
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -156,7 +147,7 @@ router.post('/password', (req, res) => {
     User.findOne({email: email_confirm}, function (err, user){ 
         if (err) throw err;
         if(user){
-            const link = "http://" + req.get('host') + "/users/password/verify/" + user.id;
+            const link = "http://" + req.get('host') + "/users/password/verify/" + user.random;
             const mailOptions = {
                 from: '"Comicast" <comicast.standup@gmail.com>',
                 to : req.body.email_confirm,
@@ -181,10 +172,10 @@ router.post('/password', (req, res) => {
 });
 
 // Forgot Password Verification Page ---------------------------------------------------------------------------------------------------
-let mongooseId;
-router.get('/password/verify/:id', (req, res) => {
-    mongooseId = req.params.id;
-    User.findOne({_id: mongooseId}, function (err, user){ 
+let randomt;
+router.get('/password/verify/:token', (req, res) => {
+    randomt = req.params.token;
+    User.findOne({random: randomt}, function (err, user){ 
         if (err) throw err;
         if(user){
             res.render('passwordChange')
@@ -212,7 +203,7 @@ router.post('/password/verify/final', forwardAuthenticated, urlencodedParser,[
         res.render('passwordChange', {errors:errors.array()});
         console.log(errors);
     } else {
-        User.findOne({_id: mongooseId}, (err, user) => {
+        User.findOne({random: randomt}, (err, user) => {
             if (err) throw err;
             if(user){
                 bcrypt.genSalt(10, (err, salt) => {
@@ -224,14 +215,22 @@ router.post('/password/verify/final', forwardAuthenticated, urlencodedParser,[
                                 throw err
                             } else {
                                 req.body.password = hash;
-                                User.findByIdAndUpdate({_id: mongooseId}, {password: req.body.password}, (err, result) => {
+                                User.findOneAndUpdate({random: randomt}, {password: req.body.password}, (err, result) => {
                                     if (err) {
                                         res.send(err);
                                     } else {
-                                        req.flash("success", "Password has been Changed");
-                                        res.redirect("/users/login");
+                                        var random2 = randomstring.generate();
+                                        User.findOneAndUpdate({random: randomt}, {random: random2}, (err, result) => {
+                                            if(err){
+                                                res.send(err);
+                                            } else {
+                                                req.flash("success", "Password has been Changed");
+                                                res.redirect("/users/login");
+                                            }
+                                        })
                                     }
                                 });
+                                
                             }
                         });
                     }
