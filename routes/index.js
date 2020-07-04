@@ -35,4 +35,8 @@ router.get('/user/:username', ensureAuthenticated, (req, res) => {
     }
 });
 
+//  Edit Profile
+router.get('/edit-profile/:username', ensureAuthenticated, (req, res) => {
+})
+
 module.exports = router;

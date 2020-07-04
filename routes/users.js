@@ -64,7 +64,6 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
     }
     
     var errors = validationResult(req);
-    var random = randomstring.generate();
 
     if (!errors.isEmpty()) {
         res.render('register', {errors:errors.array()});
@@ -84,7 +83,6 @@ router.post('/register', forwardAuthenticated, urlencodedParser, upload, [
         about: about,
         website: website,
         avatar: avatar,
-        random: random,
     })
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -168,7 +166,8 @@ router.get('/password', (req, res) => {
 
 router.post('/password', (req, res) => {
     const {email_confirm} = req.body;
-    User.findOne({email: email_confirm}, function (err, user){ 
+    var randomToken = randomstring.generate();
+    User.findOneAndUpdate({email: email_confirm}, {random: randomToken}, function (err, user){ 
         if (err) throw err;
         if(user){
             const link = "http://" + req.get('host') + "/users/password/verify/" + user.id + "/" + user.random;
@@ -253,8 +252,8 @@ router.post('/password/verify/final', forwardAuthenticated, urlencodedParser,[
                                     if (err) {
                                         res.send(err);
                                     } else {
-                                        var random2 = randomstring.generate();
-                                        User.findOneAndUpdate({random: randomt}, {random: random2}, (err, result) => {
+                                        var none = null;
+                                        User.findOneAndUpdate({random: randomt}, {random: none}, (err, result) => {
                                             if(err){
                                                 res.send(err);
                                             } else {

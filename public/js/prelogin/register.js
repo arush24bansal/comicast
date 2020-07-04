@@ -1,4 +1,4 @@
-//--------------------------------------------------------PASSWORD----------------------------------------------------------------------
+//------------PASSWORD
 var a = document.getElementById('password');
 var b = document.getElementById('confirm_password');
 var hint = document.getElementById('hint');
@@ -47,7 +47,7 @@ b.addEventListener("blur", function() {
     } 
 })
 
-//--------------------------------------------------------USERNAME----------------------------------------------------------------------
+//----------------USERNAME
 
 var c = document.getElementById("username");
 var hint3 = document.getElementById("hintUsername");
@@ -67,17 +67,9 @@ c.addEventListener("keyup", function(){
     }
 })
 
-//----------------------------------------------------------TITLE-----------------------------------------------------------------------
-var d = document.getElementsByClassName('form-group');
+// ----- Date 
 
-window.onload = function() {
-    for(var i=0 ; i < d.length; i++){
-        d[i].setAttribute('title', '');
-    }
-}
-
-//------------------------------------------------------------DATE----------------------------------------------------------------------
-
+var d = document.getElementById("datefield")
 const today = new Date();
 const days = today.getDate();
 const months = today.getMonth() + 1;
@@ -91,24 +83,17 @@ const day = zero(days);
 const month = zero(months)
 const newDate = year+'-'+month+'-'+day;
 
-document.getElementById("datefield").setAttribute('max', newDate);
-
-//----------------------------------------------------------INVALID---------------------------------------------------------------------
-
-var e = document.getElementsByClassName('btn-info');
-
-window.onload = function() {
-    for(var i=0 ; i < e.length; i++){
-        e[i].setAttribute("oninput", "setCustomValidity('')");
-    }
-}
-
-//----------------------------------------------------------REQUIRED--------------------------------------------------------------------
-
+//------- Title
+var e = document.getElementsByClassName('btn');
 var f = document.getElementsByClassName('req');
 
 window.onload = function() {
-    for(var i=0 ; i < f.length; i++){
-        f[i].setAttribute("title", "Required");
+    d.setAttribute('max', newDate);
+    for(var i=0 ; i < e.length; i++){
+        e[i].title = "";
+        e[i].setAttribute("oninput", "this.setCustomValidity('')");
     }
+    for(var j=0 ; j < f.length; j++){
+        f[j].title = "Required";
+    }   
 }

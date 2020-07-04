@@ -32,7 +32,6 @@ a.addEventListener("blur", function() {
         submit.style.display = "block" ;
     }
 })
-//--------------------------------------------------------------------------------------------------------------------------------------
 
 b.addEventListener("input", function() {
     hint2.innerHTML = "" ;

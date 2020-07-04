@@ -6,13 +6,19 @@ block extra
     
 block content
         .upper
-            img.image(src= "/avatar_uploads/" + user.avatar)
-            .Details
-                h1= user.username
-                h2= user.name + user.about
-                if(user.website)
-                    h3= user.website
-                .btn.btn-info Edit Profile
+            .card
+                .card-image
+                    img.image(src= "/avatar_uploads/" + user.avatar)
+                .card-body
+                    .card-title= user.username
+                    .card-text
+                        h1= user.username
+                        p= user.name 
+                        if(user.about)
+                            p= user.about
+                        if(user.website)
+                            a(href=user.website)
+                        a(href='/edit-profile/' + user.username) Edit Profile
                 
                 
 
