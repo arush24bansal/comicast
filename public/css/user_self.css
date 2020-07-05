@@ -1,0 +1,9 @@
+.card{
+    width: 20%;
+    background-color: #2f435e;
+    color: white;
+    border-radius: 10px;
+}.image{
+    height: 200px;
+    border-radius: 10px;
+}

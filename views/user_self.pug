@@ -1,24 +1,24 @@
 extends layout2.pug
 
 block extra
-    link(rel='stylesheet' href='/css/user.css')
+    link(rel='stylesheet' href='/css/user_self.css')
     title= user.name + '- Comicast'
     
 block content
-        .upper
-            .card
-                .card-image
+        .upper.m-3
+            .card.p-2
+                .card-image.p-3
                     img.image(src= "/avatar_uploads/" + user.avatar)
                 .card-body
-                    .card-title= user.username
-                    .card-text
+                    .card-title
                         h1= user.username
+                    .card-text
                         p= user.name 
                         if(user.about)
                             p= user.about
                         if(user.website)
-                            a(href=user.website)
-                        a(href='/edit-profile/' + user.username) Edit Profile
-                
-                
+                            a#url(href=user.website)
+                        br
+                        a(href= "/" + user.username + "/edit-profile") Edit Profile
 
+        script(type="text/javascript" src="/js/userPages/profile.js")

@@ -139,7 +139,7 @@ router.post("/login", function (req, res, next) {
         } else {
             req.logIn(user, function (err) {
                 if (err) {
-                    next(err);
+                    res.redirect('/users/login')
                 } else {
                     if (req.body.remember) {
                         var hour = 30*24*60*60*1000;
@@ -168,25 +168,35 @@ router.post('/password', (req, res) => {
     const {email_confirm} = req.body;
     var randomToken = randomstring.generate();
     User.findOneAndUpdate({email: email_confirm}, {random: randomToken}, function (err, user){ 
-        if (err) throw err;
-        if(user){
-            const link = "http://" + req.get('host') + "/users/password/verify/" + user.id + "/" + user.random;
-            const mailOptions = {
-                from: '"Comicast" <comicast.standup@gmail.com>',
-                to : req.body.email_confirm,
-                subject : "Reset Password",
-                html : "<center><h1> Reset your Password here</h1><br><br> Click <a href="+link+">here</a> to set new password </center>"
-            }
-            smtpTransport.sendMail(mailOptions, function(error, response){
-                if(error){
-                    console.log(error);
-                    res.send(error);
-                }else{
-                    console.log("Message sent");
-                }
-            });
-            req.flash('success', 'Reset Password Link Sent to your Email')
-            res.redirect('/users/login');
+        if (err){
+            res.send(err)
+        } else if(user){
+            User.findOne({email: email_confirm}, (err, user) => {
+                if(err){
+                    res.send(err)
+                } else if(user){
+                    const link = "http://" + req.get('host') + "/users/password/verify/" + user.id + "/" + user.random
+                    const mailOptions = {
+                        from: '"Comicast" <comicast.standup@gmail.com>',
+                        to : req.body.email_confirm,
+                        subject : "Reset Password",
+                        html : "<center><h1> Reset your Password here</h1><br><br> Click <a href="+link+">here</a> to set new password </center>"
+                    }
+                    smtpTransport.sendMail(mailOptions, function(error, response){
+                        if(error){
+                            console.log(error);
+                            res.send(error);
+                        }else{
+                            console.log("Message sent");
+                        }
+                    });
+                    req.flash('success', 'Reset Password Link Sent to your Email')
+                    res.redirect('/users/login');   
+                } else {
+                    req.flash('error', 'No User Found')
+                    res.redirect("/users/password")
+                }           
+            })
         } else {
             req.flash('error', 'No User Found')
             res.redirect("/users/password")
@@ -195,25 +205,18 @@ router.post('/password', (req, res) => {
 });
 
 // Forgot Password Verification Page ---------------------------------------------------------------------------------------------------
-let randomt;
 let mongoId
+let randomt;
 router.get('/password/verify/:id/:token', (req, res) => {
-    randomt = req.params.token;
     mongoId = req.params.id;
-    User.findOne({_id: mongoId}, function(err, user){
-        if(err) throw err;
-        if(user){
-            User.findOne({random: randomt}, function (err, user){ 
-                if (err) throw err;
-                if(user){
-                    res.render('passwordChange')
-                }else{
-                    req.flash("error", "Request is from an Unknown Source");
-                    res.redirect("/users/login");            
-                }
-            });
+    randomt = req.params.token;
+    User.findOne({_id: mongoId, random: randomt}, function(err, user){
+        if(err){
+            res.send(err)
+        } else if(user){
+            res.render('passwordChange')
         } else{
-            req.flash("error", "No User Found");
+            req.flash("error", "Request is from an unknown source");
             res.redirect("/users/login"); 
         }
     })
@@ -248,19 +251,16 @@ router.post('/password/verify/final', forwardAuthenticated, urlencodedParser,[
                                 throw err
                             } else {
                                 req.body.password = hash;
-                                User.findOneAndUpdate({random: randomt}, {password: req.body.password}, (err, result) => {
+                                var objForUpdate = {};
+                                objForUpdate.password = req.body.password;
+                                objForUpdate.random = "";
+                                objForUpdate = { $set: objForUpdate }
+                                User.findOneAndUpdate({random: randomt}, objForUpdate, (err, result) => {
                                     if (err) {
                                         res.send(err);
                                     } else {
-                                        var none = null;
-                                        User.findOneAndUpdate({random: randomt}, {random: none}, (err, result) => {
-                                            if(err){
-                                                res.send(err);
-                                            } else {
-                                                req.flash("success", "Password has been Changed");
-                                                res.redirect("/users/login");
-                                            }
-                                        })
+                                        req.flash("success", "Password has been Changed");
+                                        res.redirect("/users/login");
                                     }
                                 });
                                 

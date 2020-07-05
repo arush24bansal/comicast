@@ -1,15 +1,24 @@
 extends layout2.pug
 
 block extra
-    link(rel='stylesheet' href='/css/user.css')
-    title= user2.username + '- Comicast'
+    link(rel='stylesheet' href='/css/user_self.css')
+    title= user2.name + '- Comicast'
     
 block content
-        .upper
-            img.image(src= "/avatar_uploads/" + user2.avatar)
-            .Details
-                h1= user2.username
-                h2= user2.name + user2.about
-                if(user2.website)
-                    h3= user2.website
+        .upper.m-3
+            .card.p-2
+                .card-image.p-3
+                    img.image(src= "/avatar_uploads/" + user2.avatar)
+                .card-body
+                    .card-title
+                        h1= user2.username
+                    .card-text
+                        p= user2.name 
+                        if(user2.about)
+                            p= user2.about
+                        if(user2.website)
+                            a#url(href=user2.website)
+                            
+        script(type="text/javascript" src="/js/userPages/profile.js")
+        
                 

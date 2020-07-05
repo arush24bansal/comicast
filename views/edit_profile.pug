@@ -1,16 +1,41 @@
 extends layout2.pug
 
 block extra
-    link(rel='stylesheet' href='/css/user.css')
-    title= user.name + '- Comicast'
+    link(rel='stylesheet' href='/css/edit_profile.css')
+    title= user.name + '- Edit Profile'
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
     
 block content
-        .upper
-            img.image(src= "/avatar_uploads/" + user.avatar)
-            .Details
-                h1= user.username
-                h2= user.name + user.about
-                if(user.website)
-                    h3= user.website
-                .btn.btn-info Edit Profile
-                
+    .upper.m-5
+        h1.ml-5= user.username
+    .lower.m-2.p-4.ml-5
+        ul.list-group.ml-5
+            li.list-group-item#pictureList Profile Picture
+            li.list-group-item#bioList Bio
+            li.list-group-item#detailsList Personal Details
+        .box.ml-5
+            #pictureBox
+                center
+                    img.image.mt-4(src= "/avatar_uploads/" + user.avatar)
+                    form(action="/profile-picture", method="post", enctype="multipart/form-data")
+                        .form-group
+                            input.btn.btn-info.mt-2#file(type="text" placeholder="Change Profile Picture" onfocus="(this.type='file')" name="avatar" accept='.png, .jpeg, .JPG, .JPEG, .PNG')
+                        button.btn.btn-success#submit(type='submit') Submit
+                    a.p-0#remove(href="/profile-picture/remove/" + user.id)
+                        button.btn.btn-info.p-0.m-0 Remove Profile Picture
+            #bioBox
+                center
+                    form#bioForm(action="/bio", method="post")
+                        .form-group
+                            textarea#about(type="text" name="about", rows="5", placeholder="About Yourself").btn.btn-info.mt-4= user.about
+                        .form-group
+                            input.btn.btn-info#website(type="url" name="website" placeholder="Website URL" oninvalid="this.setCustomValidity('Please Enter a Valid URL')" oninput="this.setCustomValidity('')" title="" value=user.website)
+                            i.ml-3(class="fa fa-info-circle" style="font-size:25px; color:white"  title="Copy & Paste your Website URL, simply typing it may not work." onclick ="alert('Copy & Paste your Website URL, simply typing it may not work.');")
+                            br
+                        button.btn.btn-success#submit2.p-0(type='submit' disabled) Submit
+                    button.btn.btn-primary#reset.p-0.m-1(type='button' onclick="onClick();" disabled) Reset         
+            #detailsBox
+                p yo
+
+    
+    script(type="text/javascript" src="/js/userPages/editProfile.js")
