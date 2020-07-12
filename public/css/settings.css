@@ -1,0 +1,163 @@
+/* Main */
+
+.lower {
+    display: flex;
+    flex-direction: row;
+} #list-main {
+    width: 20%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+} .items {
+    color: white;
+    background-color: #2f435e;
+} .items:hover {
+    transform: scale(1.02);
+    cursor: default;
+} #box-main {
+    background-color:#2f435e;
+    width: 60%;
+    height: 400px;
+    color: white;
+    border-radius: 10px;
+} .boxes {
+    display: none;
+} .items:first-child {
+    background-color: #213045;
+} 
+
+/* Edit Profile */
+
+.boxes:first-child {
+    display: flex;
+    flex-direction: row;
+} .left-edit {
+    width: 25%;
+} .head-edit{
+    text-align: center;
+    font-size: 30px;
+} #list-edit {
+    font-size: 17px;
+    text-align: center;
+    border-radius: 10px;
+} .items-edit {
+    color: white;
+    background-color:#2f435e;
+    border: 1px solid white;
+} .items-edit:first-child{
+    background-color:#213045;
+} .items-edit:hover{
+    transform: scale(1.02);
+    cursor: default;
+} #box-edit {
+    color: white;
+    width: 65%;
+}  .boxes-edit:not(:first-child){
+    display: none;
+} .title-edit {
+    margin: 0px;
+}
+
+/* Picture */
+
+.modal, .close {
+    color: white;
+    text-shadow: 0px;
+} .modal{
+    margin-top: 10%;
+} .modal-content{
+    border-radius: 10px;
+    width: 500px;
+    font-size: 30px;
+    background-color: #213045;
+} .modal-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+} .modal-footer .btn {
+    width: 15%;
+}
+
+.boxes-edit:first-child .btn-info{
+    height: 35px;
+    padding: 0px;
+    font-size: 20px;
+    text-align: center;
+    width: 60%;
+} .boxes-edit:first-child .submitButton {
+    display: none;
+} .boxes-edit:first-child ::placeholder {
+    text-align: center;
+} .boxes-edit:first-child :-ms-input-placeholder {
+    text-align: center;
+} .boxes-edit:first-child ::-ms-input-placeholder {
+    text-align: center;
+} .image {
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+} .boxes-edit:first-child .submitButton {
+    padding: 0px;
+    width: 30%;   
+    height: 30%;
+    font-size: 20px;
+    margin: 0px;
+}
+
+/* Bio */
+
+.boxes-edit:nth-child(2) .btn-info {
+    width: 90%;
+    font-size: 20px;
+    text-align: left;
+    height: 35px;
+} .boxes-edit:nth-child(2) #about {
+    resize: none;
+    overflow: hidden;
+    width: 100%;
+    height: 130px;
+    text-align: left;
+    font-size: 20px;
+} .boxes-edit:nth-child(2) .submitButton, .resetButton{
+    padding: 0px;
+    width: 30%;   
+    height: 30%;
+    font-size: 20px;
+    margin: 3px;
+} .fa-info-circle {
+    font-size:25px; 
+    color: white;
+}
+
+/* Details */
+.boxes-edit:last-child .btn-info{
+    height: 35%;
+    font-size: 23px;
+    text-align: left;
+    margin-top: 2px;
+} .hintDetails {
+    color: red;
+} .boxes-edit:last-child .submitButton, .resetButton{
+    padding: 0px;
+    width: 30%;   
+    height: 30%;
+    font-size: 20px;
+    margin: 3px;
+} 
+
+/* Password */
+
+.head-password{
+    text-align: center;
+    font-size: 50px;
+} .boxes:nth-child(2) .btn-info{
+    width: 60%;   
+    height: 35%;
+    font-size: 23px;
+    text-align: left;
+} .hintPassword{
+    color: red;
+    display: none;
+} #minInfo {
+    margin: 0px;
+} 

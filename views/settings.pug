@@ -1,0 +1,93 @@
+extends layout2.pug
+
+block extra
+    link(rel='stylesheet' href='/css/settings.css')
+    title= user.username + '- Settings'
+    
+block content
+    .modal.fade#myModal(role="dialog")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    .modal-title
+                    button.close(type="button" data-dismiss="modal") &times;
+                .modal-body
+                .modal-footer
+                    a.modal-buttons.btn.btn-primary(href="/profile-picture/remove/" + user.id) Yes
+                    button.modal-buttons.btn.btn-secondary(type="button" data-dismiss="modal") Cancel
+    h1.ml-5= user.username
+    .lower.p-4
+        ul.list-group.ml-2(id="list-main")
+            li.list-group-item.items Edit Profile
+            li.list-group-item.items Change Password
+            li.list-group-item.items Privacy and Security
+            li.list-group-item.items Email and SMS
+            li.list-group-item.items Push Notifications
+        .ml-5.p-4(id="box-main")
+            .boxes
+                .left-edit
+                    p.head-edit Edit Profile
+                    ul.list-group.mt-3(id="list-edit")
+                        li.list-group-item.items-edit Picture
+                        li.list-group-item.items-edit Bio
+                        li.list-group-item.items-edit Details
+                .ml-3(id="box-edit")
+                    .boxes-edit.m-3
+                        center
+                            img.image(src= "/avatar_uploads/" + user.avatar)
+                            form(action="/profile-picture", enctype="multipart/form-data")
+                                .form-group
+                                    input(placeholder="Change Profile Picture" onfocus="(this.type='file')" name="avatar" accept='.png, .jpeg, .JPG, .JPEG, .PNG')
+                                button.submitButton
+                            button.btn.btn-info#remove Remove Profile Picture
+                    .boxes-edit.m-3
+                        form(action="/bio")
+                            .form-group.mt-4
+                                p.title-edit About
+                                textarea.btn.btn-info#about(name="about" cols="20" rows="5", maxlength="100" wrap="hard" placeholder="About Yourself")= user.about 
+                            .form-group
+                                p.title-edit Website
+                                input(type="url" name="website" placeholder="Website URL" value=user.website  oninvalid="this.setCustomValidity('Enter a valid url')")
+                                i.ml-3(class="fa fa-info-circle" onclick ="websiteAlert();")
+                                br
+                            center
+                                button.submitButton(disabled)
+                        center
+                            button.resetButton       
+                    .boxes-edit.m-3
+                        center
+                            form(action="/details")
+                                .form-group
+                                    p.mt-5.title-edit Name
+                                    input(name="name" value=user.name placeholder="Full Name" maxlength="22" oninvalid="this.setCustomValidity('Enter your Name')")
+                                    p.hintDetails
+                                .form-group
+                                    p.title-edit Username
+                                    input(name="username" value=user.username placeholder="Username" maxlength="22" oninvalid="this.setCustomValidity('min 5 characters')" pattern=".{5,}")
+                                    br
+                                    p.hintDetails
+                            button.submitButton(disabled)
+                        center
+                            button.resetButton
+            .boxes
+                center
+                    p.head-password Change Password
+                    form(action="/password")
+                        .form-group
+                            input(name="original" placeholder="Enter your Current password")
+                        .form-group
+                            input(name="password" placeholder="Enter New password" disabled)
+                            p#minInfo Minimum 8 Characters
+                            p.hintPassword Password Must be minimum 8 Characters
+                        .form-group
+                            input(placeholder="Confirm New password" disabled)
+                            p.hintPassword Confirmation doesn't match Password
+                        button.submitButton(disabled)
+            .boxes
+                p hurra
+            .boxes
+                p haddipa
+            .boxes
+                p yaya
+
+    script(type="text/javascript" src="/js/settings/settings.js")

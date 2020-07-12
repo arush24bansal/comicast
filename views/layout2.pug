@@ -6,6 +6,7 @@ html(lang='en')
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous")
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
         link(rel='stylesheet' href='/css/layout2.css')  
         block extra
         
@@ -24,8 +25,8 @@ html(lang='en')
                 .nav-item.dropdown
                     a.nav-link.dropdown-toggle(data-toggle="dropdown")
                         .dropdown-menu
-                            a.dropdown-item(href="/user")= user.name
-                            a.dropdown-item(href="/settings") Settings
+                            a.dropdown-item(href="/user/" + user.username)= user.name
+                            a.dropdown-item#settings(href="/settings/" + user.username) Settings
                             a.dropdown-item(href="/users/logout") Logout
 
         .container-fluid
